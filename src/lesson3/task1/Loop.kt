@@ -67,7 +67,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var i: Int = 0
+    var n1: Int = n
+    do {
+        i = i + 1
+        n1 = n1 / 10
+    } while (n1 != 0)
+
+    return i
+}
 
 /**
  * Простая
@@ -75,7 +84,20 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var i: Int
+    var f1: Int = 1
+    var f2: Int = 1
+    var fn: Int = 0
+    if ((n == 1) || (n == 2)) return 1
+
+    for (i in 3..n) {
+        fn = f1 + f2
+        f1 = f2
+        f2 = fn
+    }
+    return fn
+}
 
 /**
  * Простая
@@ -207,4 +229,28 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i: Int = 0
+    var j: Int = 1
+    var f: Int = 1
+    var m: Int = 10
+    var k: Int = 1
+    var n1: Int = n
+
+    while (n1 > k) {
+        n1 = n1 - k
+        f = i + j
+        i = j
+        j = f
+        while ((f / m) != 0) {
+            m = m * 10
+            k = k + 1
+        }
+    }
+    while (k >= n1) {
+        m = f % 10
+        f = f / 10
+        k = k - 1
+    }
+    return m
+}
