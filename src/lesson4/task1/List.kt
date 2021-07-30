@@ -115,14 +115,27 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var sum: Double = 0.0
+    for (element in v) {
+        sum = sum + element * element
+    }
+    return sqrt(sum)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    var sum: Double = 0.0
+    for (element in list) {
+        sum = sum + element
+    }
+    return (sum / list.size)
+}
 
 /**
  * Средняя
@@ -132,7 +145,18 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty()) return list
+    var sum: Double = 0.0
+    for (element in list) {
+        sum = sum + element
+    }
+    for (i in 0 until list.size) {
+        list[i] = list[i] - sum / list.size
+    }
+    return list
+}
+
 
 /**
  * Средняя
@@ -141,7 +165,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var sum: Int = 0
+    for (i in a.indices) {
+        sum = sum + a[i] * b[i]
+    }
+    return sum
+}
 
 /**
  * Средняя
@@ -181,7 +211,26 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val l = mutableListOf<Int>()
+    var s: String
+    var k: Int = 0
+    var i: Int = 0
+    k = n
+    for (i in 2 until n) {
+        while ((k != 1) && (k % i == 0)) {
+            k = k / i
+            l.add(i)
+        }
+    }
+    if (l.isEmpty()) {
+        return n.toString()
+    } else {
+        return l.joinToString(separator = "*")
+    }
+
+}
+
 
 /**
  * Средняя
