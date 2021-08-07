@@ -9,10 +9,7 @@ package lesson5.task1
  * на основе цен из `costs`. В случае неизвестной цены считать, что товар
  * игнорируется.
  */
-fun shoppingListCost(
-    shoppingList: List<String>,
-    costs: Map<String, Double>
-): Double {
+fun shoppingListCost(shoppingList: List<String>, costs: Map<String, Double>): Double {
     var totalCost = 0.0
 
     for (item in shoppingList) {
@@ -91,7 +88,55 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val m = mutableMapOf<Int, List<String>>()
+    val l1 = mutableListOf<String>()
+    val l2 = mutableListOf<String>()
+    val l3 = mutableListOf<String>()
+    val l4 = mutableListOf<String>()
+    val l5 = mutableListOf<String>()
+
+    for ((key, value) in grades) {
+        when (value) {
+            1 -> l1.add(key)
+            2 -> l2.add(key)
+            3 -> l3.add(key)
+            4 -> l4.add(key)
+            5 -> l5.add(key)
+        }
+    }
+
+    if (l1.isNotEmpty()) m.put(1, l1)
+    if (l2.isNotEmpty()) m.put(2, l2)
+    if (l3.isNotEmpty()) m.put(3, l3)
+    if (l4.isNotEmpty()) m.put(4, l4)
+    if (l5.isNotEmpty()) m.put(5, l5)
+
+    return m
+}
+
+// Не работает
+/*
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    var m = mutableMapOf<Int, List<String>>()
+    var l = mutableListOf<String>()
+    var i: Int = 0
+    var j: Int = 0
+    for (i in 1..5) {
+        for ((key, value) in grades) {
+            if (value == i) {
+                l.add(key)
+                j = i
+            }
+        }
+        if (l.isNotEmpty()) {
+            m.put(j, l)
+            l.clear()
+        }
+    }
+    return m
+}
+ */
 
 /**
  * Простая
@@ -103,7 +148,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for ((key, value) in a) {
+        if (!((b.contains(key)) && b.containsValue(value))) return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -119,7 +169,18 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TODO()
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+    val keyToRemove = mutableListOf<String>()
+    for ((keyB, valueB) in b) {
+        for ((keyA, valueA) in a)
+            if (keyA == keyB && valueA == valueB) {
+                keyToRemove.add(keyA)
+            }
+    }
+    for (name in keyToRemove) {
+        a.remove(name)
+    }
+}
 
 /**
  * Простая
@@ -128,7 +189,21 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val m = mutableMapOf<String, Int>()
+    val l = mutableListOf<String>()
+    for (nameB in b) {
+        for (nameA in a) {
+            if (nameA == nameB) {
+                m.put(nameA, 1)
+            }
+        }
+    }
+    for ((key, value) in m) {
+        l.add(key)
+    }
+    return l
+}
 
 /**
  * Средняя
@@ -147,7 +222,28 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val m = mutableMapOf<String, String>()
+    var s: String
+    for ((keyB, valueB) in mapB) {
+        for ((keyA, valueA) in mapA) {
+            if (keyA == keyB && valueA == valueB) {
+                m.put(keyA, valueA)
+            }
+            if (keyA == keyB && valueA != valueB) {
+                s = "$valueA, $valueB"
+                m.put(keyA, s)
+            }
+            if (!(mapA.contains(keyB))) {
+                m.put(keyB, valueB)
+            }
+            if (!(mapB.contains(keyA))) {
+                m.put(keyA, valueA)
+            }
+        }
+    }
+    return m
+}
 
 /**
  * Средняя
@@ -159,7 +255,20 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val m = mutableMapOf<String, Double>()
+    for ((item, price) in stockPrices) {
+        //for ((key, value) in m) {
+        if (m.containsKey(item)) {
+            m[item] = (m.get(item)!! + price) / 2
+        }else{
+            m.put(item, price)
+        }
+
+        //}
+    }
+    return m
+}
 
 /**
  * Средняя
@@ -176,7 +285,19 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var mx: Double = 500.0
+    var out: String? = null
+    for ((name, item) in stuff) {
+        if (item.first == kind) {
+            if (item.second < mx) {
+                out = name
+                mx = item.second
+            }
+        }
+    }
+    return out
+}
 
 /**
  * Средняя
