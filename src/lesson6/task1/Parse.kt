@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.lang.NumberFormatException
+
 /**
  * Пример
  *
@@ -81,7 +83,103 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    var result: String = ""
+    var month: String
+    if (parts.size > 3) return result
+
+    when (parts[1]) {
+        "01" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "января"
+            }else{
+                return result
+            }
+        }
+        "02" -> {
+            if (((parts[0].toInt() >= 1) && (parts[0].toInt() <= 28) && (parts[2].toInt() % 4 != 0)) || ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 29) && (parts[2].toInt() % 4 == 0))) {
+                month = "февраля"
+            }else{
+                return result
+            }
+        }
+        "03" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "марта"
+            }else{
+                return result
+            }
+        }
+        "04" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 30)) {
+                month = "апреля"
+            }else{
+                return result
+            }
+        }
+        "05" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "мая"
+            }else{
+                return result
+            }
+        }
+        "06" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 30)) {
+                month = "июня"
+            }else{
+                return result
+            }
+        }
+        "07" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "июля"
+            }else{
+                return result
+            }
+        }
+        "08" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "августа"
+            }else{
+                return result
+            }
+        }
+        "09" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 30)) {
+                month = "сентября"
+            }else{
+                return result
+            }
+        }
+        "10" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "октября"
+            }else{
+                return result
+            }
+        }
+        "11" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 30)) {
+                month = "ноября"
+            }else{
+                return result
+            }
+        }
+        "12" -> {
+            if ((parts[0].toInt() >= 1) && (parts[0].toInt() <= 31)) {
+                month = "декабря"
+            }else{
+                return result
+            }
+        }
+        else -> {
+            return result
+        }
+    }
+    return String.format("%d %s %d", parts[0].toInt(), month, parts[2].toInt())
+}
 
 /**
  * Средняя
@@ -133,7 +231,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var s: Int = 0
+    var i: Int = 0
+    // if ((parts.size == 1) && ((parts[0] != "+") || (parts[0] != "-"))) return parts[0].toInt()
+    try {
+        s = parts[0].toInt()
+        for (i in 1..parts.size - 2 step 2) {
+            when (parts[i]) {
+                "+" -> s = s * 1 + parts[i + 1].toInt()
+                "-" -> s = s * 1 - parts[i + 1].toInt()
+                else -> print("Unknown")
+            }
+        }
+        return s
+    } catch (e: NumberFormatException) {
+        throw NumberFormatException("Description")
+    }
+}
 
 /**
  * Сложная
@@ -157,7 +273,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val parts = description.split("; ")
+    val m = mutableMapOf<String, Double>()
+    var mx: Double = 0.0
+    var str: String = ""
+    if (description == "") return str
+    for (part in parts) {
+        val p = part.split(" ")
+        m.put(p[0], p[1].toDouble())
+    }
+    for ((item, price) in m) {
+        if (price > mx) {
+            mx = price
+            str = item
+        }
+    }
+    return str
+}
 
 /**
  * Сложная
